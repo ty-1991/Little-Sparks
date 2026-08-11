@@ -217,6 +217,34 @@
         color: var(--muted-text);
         margin: 0 0 12px;
       }
+      .today-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .reload-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--ink);
+        font-size: 12px;
+        cursor: pointer;
+        font-family: "Public Sans", sans-serif;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .reload-btn:hover {
+        border-color: var(--accent);
+      }
+      .reload-btn svg {
+        color: var(--accent);
+      }
       .activity-card {
         border-radius: 14px;
         border: 1px solid var(--line);
@@ -834,9 +862,11 @@
 
       const DAILY_PICK_COUNT = 4;
 
-      function todaysActivities(stageId, dateKey) {
+      function todaysActivities(stageId, dateKey, rerollCount) {
         const pool = ACTIVITIES[stageId];
-        const seed = hashCode(dateKey + ":" + stageId);
+        const seed = hashCode(
+          dateKey + ":" + stageId + ":" + (rerollCount || 0),
+        );
         return seededShuffle(pool, seed).slice(0, DAILY_PICK_COUNT);
       }
 
@@ -938,6 +968,7 @@
         openArticle: null,
         cryContext: null,
         openCause: null,
+        rerollLog: {},
       };
 
       /* ---------------- helpers ---------------- */
@@ -1019,6 +1050,8 @@
         '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
       const ICON_CHEVRON =
         '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+      const ICON_REFRESH =
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M8 16H3v5"/></svg>';
 
       /* ---------------- rendering ---------------- */
 
@@ -1114,13 +1147,19 @@
       function renderToday() {
         const days = ageInDays(state.profile.birth);
         const stage = stageForDays(days);
-        const list = todaysActivities(stage.id, todayKey());
-        const doneToday = state.activityLog[todayKey()] || [];
+        const dateKey = todayKey();
+        const rerollCount = state.rerollLog[dateKey] || 0;
+        const list = todaysActivities(stage.id, dateKey, rerollCount);
+        const doneToday = state.activityLog[dateKey] || [];
         const doneFromToday = list.filter((a) =>
           doneToday.includes(a.id),
         ).length;
 
-        let html = `<p class="today-count">${doneFromToday} of ${list.length} done today · new picks tomorrow</p>`;
+        let html = `
+  <div class="today-header-row">
+    <p class="today-count" style="margin:0">${doneFromToday} of ${list.length} Done Today · New Picks Tomorrow!</p>
+    <button class="reload-btn" id="btn-reroll">${ICON_REFRESH} Try different ones</button>
+  </div>`;
         list.forEach((act) => {
           const done = doneToday.includes(act.id);
           html += `
@@ -1348,6 +1387,16 @@
           });
         });
 
+        const rerollBtn = document.getElementById("btn-reroll");
+        if (rerollBtn) {
+          rerollBtn.addEventListener("click", async () => {
+            const key = todayKey();
+            state.rerollLog[key] = (state.rerollLog[key] || 0) + 1;
+            await saveJSON("activity-reroll", state.rerollLog);
+            render();
+          });
+        }
+
         document.querySelectorAll("[data-milestone]").forEach((btn) => {
           btn.addEventListener("click", async () => {
             const id = btn.dataset.milestone;
@@ -1390,6 +1439,7 @@
         state.profile = await loadJSON("baby-profile", null);
         state.activityLog = await loadJSON("activity-log", {});
         state.milestoneLog = await loadJSON("milestone-log", {});
+        state.rerollLog = await loadJSON("activity-reroll", {});
         state.ready = true;
         render();
       })();
