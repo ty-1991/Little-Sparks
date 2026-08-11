@@ -441,6 +441,30 @@
             minutes: 15,
             why: "Close contact steadies heart rate and breathing, which keeps stress hormones low so the brain can spend its energy on growing rather than coping.",
           },
+          {
+            id: "n5",
+            title: "Gentle massage",
+            minutes: 5,
+            why: "A few minutes of gentle stroking after a bath activates touch receptors that feed directly into the brain's map of the body, one of the first senses to mature.",
+          },
+          {
+            id: "n6",
+            title: "Change up positions",
+            minutes: 5,
+            why: "Shifting between being held upright, side-lying, and lying flat gives the inner ear varied signals about balance and space, which the vestibular system is busy calibrating.",
+          },
+          {
+            id: "n7",
+            title: "Read aloud",
+            minutes: 10,
+            why: "The specific words don't matter yet — the rhythm and pitch of a reading voice is enough to give the auditory system practice picking sounds out of a stream.",
+          },
+          {
+            id: "n8",
+            title: "Black-and-white mobile",
+            minutes: 5,
+            why: "A simple mobile a few inches off gives newborn eyes something to lock onto and slowly track, without the extra clutter of color or busy detail.",
+          },
         ],
         settling: [
           {
@@ -466,6 +490,30 @@
             title: "Texture basket",
             minutes: 10,
             why: "Letting tiny hands touch soft, bumpy, and smooth fabrics feeds the somatosensory map that's rapidly filling in this month.",
+          },
+          {
+            id: "s5",
+            title: "Blow gentle raspberries",
+            minutes: 5,
+            why: "Silly sounds and faces held close invite a smile back — an early back-and-forth that trains the brain's social-reward circuitry.",
+          },
+          {
+            id: "s6",
+            title: "Reach for rattle sounds",
+            minutes: 5,
+            why: "Shaking a rattle to one side and waiting encourages baby to turn toward the sound, linking hearing and head control together.",
+          },
+          {
+            id: "s7",
+            title: "Tummy time on your chest",
+            minutes: 10,
+            why: "Lying baby on your chest while you recline is a gentler entry into tummy time, using your heartbeat and voice to make the effort feel safe.",
+          },
+          {
+            id: "s8",
+            title: "Describe what you see",
+            minutes: 10,
+            why: "Narrating a walk outside — pointing out a dog or a tree — feeds vocabulary long before it's understood, building the word-association networks used later.",
           },
         ],
         reaching: [
@@ -493,6 +541,30 @@
             minutes: 10,
             why: "Working on balance recruits the cerebellum, laying groundwork for the crawling and walking to come.",
           },
+          {
+            id: "r5",
+            title: "Textured tummy time mat",
+            minutes: 10,
+            why: "Adding a ridged or crinkly mat under tummy time gives touch and motor practice at once, since baby feels the surface while pushing up.",
+          },
+          {
+            id: "r6",
+            title: "Peekaboo with a cloth",
+            minutes: 5,
+            why: "Even simple hide-and-reveal games start building the idea that things exist even when out of sight — a concept that fully forms a bit later.",
+          },
+          {
+            id: "r7",
+            title: "Bounce to rhythm",
+            minutes: 5,
+            why: "Gentle bouncing in time with music links movement and sound processing, both of which the cerebellum is coordinating this month.",
+          },
+          {
+            id: "r8",
+            title: "Encourage side-to-side rolling",
+            minutes: 10,
+            why: "Placing a toy just out of reach to one side gives a reason to twist and roll, building the trunk strength needed for sitting.",
+          },
         ],
         exploring: [
           {
@@ -511,7 +583,7 @@
             id: "e3",
             title: "Narrate cause and effect",
             minutes: 10,
-            why: "You shook it and it rattled; naming the link between action and result builds early reasoning, even before words are understood.",
+            why: "Naming the link between an action and its result — you shook it and it rattled - builds early reasoning, even before words are understood.",
           },
           {
             id: "e4",
@@ -519,8 +591,70 @@
             minutes: 15,
             why: "New sounds, light, and moving air outdoors give the brain a richer stream of input than any single room can.",
           },
+          {
+            id: "e5",
+            title: "Stack and knock down",
+            minutes: 10,
+            why: "Watching a soft stack topple and rebuilding it teaches an early lesson in physical cause and effect, repeated as many times as patience allows.",
+          },
+          {
+            id: "e6",
+            title: "Water play in the tub",
+            minutes: 10,
+            why: "Splashing and pouring introduces baby to how water moves and feels differently from solid objects, expanding the mental catalog of physical properties.",
+          },
+          {
+            id: "e7",
+            title: "Crawling encouragement",
+            minutes: 10,
+            why: "Placing a toy just out of reach on the floor gives a reason to figure out forward movement, even before true crawling begins.",
+          },
+          {
+            id: "e8",
+            title: "Name body parts",
+            minutes: 5,
+            why: "Touching and naming toes, hands, and nose during play links a word to a felt sensation, an early building block of body awareness.",
+          },
         ],
       };
+
+      const DAILY_PICK_COUNT = 4;
+
+      function hashCode(str) {
+        let h = 0;
+        for (let i = 0; i < str.length; i++) {
+          h = (h << 5) - h + str.charCodeAt(i);
+          h |= 0;
+        }
+        return h;
+      }
+
+      function mulberry32(seed) {
+        let a = seed;
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          let t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function seededShuffle(arr, seed) {
+        const rnd = mulberry32(seed);
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(rnd() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function todaysActivities(stageId, dateKey) {
+        const pool = ACTIVITIES[stageId];
+        const seed = hashCode(dateKey + ":" + stageId);
+        return seededShuffle(pool, seed).slice(0, DAILY_PICK_COUNT);
+      }
 
       const MILESTONE_DOMAINS = [
         {
@@ -663,11 +797,13 @@
         return pts;
       }
 
+      const STORAGE_PREFIX = "little-sparks:";
+
       async function loadJSON(key, fallback) {
         try {
-          const res = await window.storage.get(key, false);
-          if (!res) return fallback;
-          return JSON.parse(res.value);
+          const raw = localStorage.getItem(STORAGE_PREFIX + key);
+          if (raw === null) return fallback;
+          return JSON.parse(raw);
         } catch (e) {
           return fallback;
         }
@@ -675,9 +811,9 @@
 
       async function saveJSON(key, value) {
         try {
-          await window.storage.set(key, JSON.stringify(value), false);
+          localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
         } catch (e) {
-          /* ignore */
+          /* storage full or unavailable — fail silently */
         }
       }
 
@@ -717,38 +853,38 @@
           circles += `<circle cx="${p.x}" cy="${p.y}" r="${isActive ? 4 : 2.5}" fill="${isActive ? "var(--accent)" : "var(--muted)"}" fill-opacity="${isActive ? 0.9 : 0.35}" style="transition: all 0.5s ease"/>`;
         });
         return `
-        <svg viewBox="0 0 300 300" style="width:100%;height:100%" role="img" aria-label="Brain connection bloom">
-          <defs>
-            <radialGradient id="bloomGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.18"/>
-              <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <circle cx="150" cy="150" r="140" fill="url(#bloomGlow)"/>
-          ${lines}
-          ${circles}
-          <circle cx="150" cy="150" r="5.5" fill="var(--accent-2)"/>
-        </svg>`;
+  <svg viewBox="0 0 300 300" style="width:100%;height:100%" role="img" aria-label="Brain connection bloom">
+    <defs>
+      <radialGradient id="bloomGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="150" cy="150" r="140" fill="url(#bloomGlow)"/>
+    ${lines}
+    ${circles}
+    <circle cx="150" cy="150" r="5.5" fill="var(--accent-2)"/>
+  </svg>`;
       }
 
       function renderSetup() {
         return `
-        <div class="setup">
-          <div class="icon-circle">${ICON_BRAIN}</div>
-          <h1 class="font-display">Little Sparks</h1>
-          <p class="tagline">Daily activities, milestones, and the science behind them — tuned to your baby's first six months.</p>
-          <div class="setup-form">
-            <div class="field">
-              <label>Baby's name</label>
-              <input id="input-name" type="text" placeholder="e.g. Amara" value="${state.profile ? esc(state.profile.name) : ""}"/>
-            </div>
-            <div class="field">
-              <label>Birth date</label>
-              <input id="input-birth" type="date" max="${todayKey()}" value="${state.profile ? state.profile.birth : ""}"/>
-            </div>
-            <button id="btn-save-profile" class="btn-primary">Start tracking</button>
-          </div>
-        </div>`;
+  <div class="setup">
+    <div class="icon-circle">${ICON_BRAIN}</div>
+    <h1 class="font-display">Little Sparks</h1>
+    <p class="tagline">Daily activities, milestones, and the science behind them — tuned to your baby's first six months.</p>
+    <div class="setup-form">
+      <div class="field">
+        <label>Baby's name</label>
+        <input id="input-name" type="text" placeholder="e.g. Amara" value="${state.profile ? esc(state.profile.name) : ""}"/>
+      </div>
+      <div class="field">
+        <label>Birth date</label>
+        <input id="input-birth" type="date" max="${todayKey()}" value="${state.profile ? state.profile.birth : ""}"/>
+      </div>
+      <button id="btn-save-profile" class="btn-primary">Start tracking</button>
+    </div>
+  </div>`;
       }
 
       function renderHeader() {
@@ -762,54 +898,57 @@
         const total = actCount + msCount;
 
         return `
-        <div class="header">
-          <div class="header-top">
-            <div>
-              <p class="header-eyebrow font-mono">${esc(stage.label)} · ${esc(stage.range)}</p>
-              <h1 class="header-name font-display">${esc(state.profile.name)}</h1>
-              <p class="header-age">${ageLabel(days)}</p>
-            </div>
-            <button class="edit-btn" id="btn-edit-profile" aria-label="Edit profile">${ICON_PENCIL}</button>
-          </div>
-          <div class="bloom-wrap">${renderBloom(total, 40)}</div>
-          <p class="bloom-caption">${total} connections logged so far</p>
-        </div>
-        <nav class="tabs">
-          ${["today", "milestones", "library"]
-            .map((id) => {
-              const labels = {
-                today: "Today",
-                milestones: "Milestones",
-                library: "Learn",
-              };
-              return `<button class="tab-btn ${state.tab === id ? "active" : ""}" data-tab="${id}">${labels[id]}</button>`;
-            })
-            .join("")}
-        </nav>`;
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <p class="header-eyebrow font-mono">${esc(stage.label)} · ${esc(stage.range)}</p>
+        <h1 class="header-name font-display">${esc(state.profile.name)}</h1>
+        <p class="header-age">${ageLabel(days)}</p>
+      </div>
+      <button class="edit-btn" id="btn-edit-profile" aria-label="Edit profile">${ICON_PENCIL}</button>
+    </div>
+    <div class="bloom-wrap">${renderBloom(total, 40)}</div>
+    <p class="bloom-caption">${total} connections logged so far</p>
+  </div>
+  <nav class="tabs">
+    ${["today", "milestones", "library"]
+      .map((id) => {
+        const labels = {
+          today: "Today",
+          milestones: "Milestones",
+          library: "Learn",
+        };
+        return `<button class="tab-btn ${state.tab === id ? "active" : ""}" data-tab="${id}">${labels[id]}</button>`;
+      })
+      .join("")}
+  </nav>`;
       }
 
       function renderToday() {
         const days = ageInDays(state.profile.birth);
         const stage = stageForDays(days);
-        const list = ACTIVITIES[stage.id];
+        const list = todaysActivities(stage.id, todayKey());
         const doneToday = state.activityLog[todayKey()] || [];
+        const doneFromToday = list.filter((a) =>
+          doneToday.includes(a.id),
+        ).length;
 
-        let html = `<p class="today-count">${doneToday.length} of ${list.length} done today</p>`;
+        let html = `<p class="today-count">${doneFromToday} of ${list.length} done today · new picks tomorrow</p>`;
         list.forEach((act) => {
           const done = doneToday.includes(act.id);
           html += `
-          <div class="activity-card ${done ? "done" : ""}">
-            <button class="check-circle ${done ? "checked" : ""}" data-activity="${act.id}" aria-label="${done ? "Mark not done" : "Mark done"}">
-              ${done ? ICON_CHECK : ""}
-            </button>
-            <div class="activity-body">
-              <div class="activity-title-row">
-                <p class="activity-title">${esc(act.title)}</p>
-                <span class="activity-minutes font-mono">${act.minutes} min</span>
-              </div>
-              <p class="activity-why">${esc(act.why)}</p>
-            </div>
-          </div>`;
+    <div class="activity-card ${done ? "done" : ""}">
+      <button class="check-circle ${done ? "checked" : ""}" data-activity="${act.id}" aria-label="${done ? "Mark not done" : "Mark done"}">
+        ${done ? ICON_CHECK : ""}
+      </button>
+      <div class="activity-body">
+        <div class="activity-title-row">
+          <p class="activity-title">${esc(act.title)}</p>
+          <span class="activity-minutes font-mono">${act.minutes} min</span>
+        </div>
+        <p class="activity-why">${esc(act.why)}</p>
+      </div>
+    </div>`;
         });
         return html;
       }
@@ -818,15 +957,15 @@
         let html = "";
         MILESTONE_DOMAINS.forEach((domain) => {
           html += `<div class="domain-block">
-            <div class="domain-title-row"><h2 class="domain-title font-display">${esc(domain.label)}</h2></div>`;
+      <div class="domain-title-row"><h2 class="domain-title font-display">${esc(domain.label)}</h2></div>`;
           domain.items.forEach((item) => {
             const achieved = state.milestoneLog[item.id];
             html += `
-            <button class="milestone-item ${achieved ? "done" : ""}" data-milestone="${item.id}">
-              <span class="milestone-check ${achieved ? "checked" : ""}">${achieved ? ICON_CHECK : ""}</span>
-              <span class="milestone-label">${esc(item.label)}</span>
-              ${achieved ? `<span class="milestone-date font-mono">${achieved}</span>` : ""}
-            </button>`;
+      <button class="milestone-item ${achieved ? "done" : ""}" data-milestone="${item.id}">
+        <span class="milestone-check ${achieved ? "checked" : ""}">${achieved ? ICON_CHECK : ""}</span>
+        <span class="milestone-label">${esc(item.label)}</span>
+        ${achieved ? `<span class="milestone-date font-mono">${achieved}</span>` : ""}
+      </button>`;
           });
           html += `</div>`;
         });
@@ -838,16 +977,16 @@
         LIBRARY.forEach((art) => {
           const open = state.openArticle === art.id;
           html += `
-          <div class="article-card">
-            <button class="article-toggle" data-article="${art.id}">
-              <div>
-                <p class="article-tag font-mono">${esc(art.tag)}</p>
-                <p class="article-title">${esc(art.title)}</p>
-              </div>
-              <span class="chevron ${open ? "open" : ""}">${ICON_CHEVRON}</span>
-            </button>
-            ${open ? `<p class="article-body">${esc(art.body)}</p>` : ""}
-          </div>`;
+    <div class="article-card">
+      <button class="article-toggle" data-article="${art.id}">
+        <div>
+          <p class="article-tag font-mono">${esc(art.tag)}</p>
+          <p class="article-title">${esc(art.title)}</p>
+        </div>
+        <span class="chevron ${open ? "open" : ""}">${ICON_CHEVRON}</span>
+      </button>
+      ${open ? `<p class="article-body">${esc(art.body)}</p>` : ""}
+    </div>`;
         });
         return html;
       }
