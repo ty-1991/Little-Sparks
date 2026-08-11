@@ -454,76 +454,352 @@
       /* ---------------- content ---------------- */
 
       const STAGES = [
-        { id: "newborn", label: "Newborn", range: "0–6 weeks", minDay: 0, maxDay: 42 },
-        { id: "settling", label: "Settling In", range: "6–12 weeks", minDay: 42, maxDay: 84 },
-        { id: "reaching", label: "Reaching Out", range: "3–4 months", minDay: 84, maxDay: 120 },
-        { id: "exploring", label: "Exploring", range: "4–6 months", minDay: 120, maxDay: 183 },
+        {
+          id: "newborn",
+          label: "Newborn",
+          range: "0–6 weeks",
+          minDay: 0,
+          maxDay: 42,
+        },
+        {
+          id: "settling",
+          label: "Settling In",
+          range: "6–12 weeks",
+          minDay: 42,
+          maxDay: 84,
+        },
+        {
+          id: "reaching",
+          label: "Reaching Out",
+          range: "3–4 months",
+          minDay: 84,
+          maxDay: 120,
+        },
+        {
+          id: "exploring",
+          label: "Exploring",
+          range: "4–6 months",
+          minDay: 120,
+          maxDay: 183,
+        },
       ];
 
       const ACTIVITIES = {
         newborn: [
-          { id: "n1", title: "Face-to-face gazing", minutes: 5, why: "Newborns focus best 8–12 inches away — right about where your face is during a hold. Locking eyes helps the visual cortex learn to track and recognize faces." },
-          { id: "n2", title: "High-contrast cards", minutes: 5, why: "Bold black-and-white patterns are easier for a brand-new visual system to resolve than soft colors, giving those early neurons something clear to fire at." },
-          { id: "n3", title: "Narrate the routine", minutes: 10, why: "Talking through diaper changes and feeds — even one-sided — builds the sound patterns that later become language." },
-          { id: "n4", title: "Skin-to-skin time", minutes: 15, why: "Close contact steadies heart rate and breathing, which keeps stress hormones low so the brain can spend its energy on growing rather than coping." },
-          { id: "n5", title: "Gentle massage", minutes: 5, why: "A few minutes of gentle stroking after a bath activates touch receptors that feed directly into the brain's map of the body, one of the first senses to mature." },
-          { id: "n6", title: "Change up positions", minutes: 5, why: "Shifting between being held upright, side-lying, and lying flat gives the inner ear varied signals about balance and space, which the vestibular system is busy calibrating." },
-          { id: "n7", title: "Read aloud", minutes: 10, why: "The specific words don't matter yet — the rhythm and pitch of a reading voice is enough to give the auditory system practice picking sounds out of a stream." },
-          { id: "n8", title: "Black-and-white mobile", minutes: 5, why: "A simple mobile a few inches off gives newborn eyes something to lock onto and slowly track, without the extra clutter of color or busy detail." },
+          {
+            id: "n1",
+            title: "Face-to-face gazing",
+            minutes: 5,
+            why: "Newborns focus best 8–12 inches away — right about where your face is during a hold. Locking eyes helps the visual cortex learn to track and recognize faces.",
+          },
+          {
+            id: "n2",
+            title: "High-contrast cards",
+            minutes: 5,
+            why: "Bold black-and-white patterns are easier for a brand-new visual system to resolve than soft colors, giving those early neurons something clear to fire at.",
+          },
+          {
+            id: "n3",
+            title: "Narrate the routine",
+            minutes: 10,
+            why: "Talking through diaper changes and feeds — even one-sided — builds the sound patterns that later become language.",
+          },
+          {
+            id: "n4",
+            title: "Skin-to-skin time",
+            minutes: 15,
+            why: "Close contact steadies heart rate and breathing, which keeps stress hormones low so the brain can spend its energy on growing rather than coping.",
+          },
+          {
+            id: "n5",
+            title: "Gentle massage",
+            minutes: 5,
+            why: "A few minutes of gentle stroking after a bath activates touch receptors that feed directly into the brain's map of the body, one of the first senses to mature.",
+          },
+          {
+            id: "n6",
+            title: "Change up positions",
+            minutes: 5,
+            why: "Shifting between being held upright, side-lying, and lying flat gives the inner ear varied signals about balance and space, which the vestibular system is busy calibrating.",
+          },
+          {
+            id: "n7",
+            title: "Read aloud",
+            minutes: 10,
+            why: "The specific words don't matter yet — the rhythm and pitch of a reading voice is enough to give the auditory system practice picking sounds out of a stream.",
+          },
+          {
+            id: "n8",
+            title: "Black-and-white mobile",
+            minutes: 5,
+            why: "A simple mobile a few inches off gives newborn eyes something to lock onto and slowly track, without the extra clutter of color or busy detail.",
+          },
         ],
         settling: [
-          { id: "s1", title: "Supervised tummy time", minutes: 10, why: "Pushing up to look around strengthens the neck and shoulders while wiring up the motor cortex for every skill that follows." },
-          { id: "s2", title: "Follow-the-toy tracking", minutes: 5, why: "Slowly moving a toy side to side gives growing eye muscles and the visual brain practice working as a team." },
-          { id: "s3", title: "Call and response babble", minutes: 10, why: "Repeating sounds back and pausing for a reply is an early rehearsal of conversation — turn-taking is a brain skill, not just a language one." },
-          { id: "s4", title: "Texture basket", minutes: 10, why: "Letting tiny hands touch soft, bumpy, and smooth fabrics feeds the somatosensory map that's rapidly filling in this month." },
-          { id: "s5", title: "Blow gentle raspberries", minutes: 5, why: "Silly sounds and faces held close invite a smile back — an early back-and-forth that trains the brain's social-reward circuitry." },
-          { id: "s6", title: "Reach for rattle sounds", minutes: 5, why: "Shaking a rattle to one side and waiting encourages baby to turn toward the sound, linking hearing and head control together." },
-          { id: "s7", title: "Tummy time on your chest", minutes: 10, why: "Lying baby on your chest while you recline is a gentler entry into tummy time, using your heartbeat and voice to make the effort feel safe." },
-          { id: "s8", title: "Describe what you see", minutes: 10, why: "Narrating a walk outside — pointing out a dog or a tree — feeds vocabulary long before it's understood, building the word-association networks used later." },
+          {
+            id: "s1",
+            title: "Supervised tummy time",
+            minutes: 10,
+            why: "Pushing up to look around strengthens the neck and shoulders while wiring up the motor cortex for every skill that follows.",
+          },
+          {
+            id: "s2",
+            title: "Follow-the-toy tracking",
+            minutes: 5,
+            why: "Slowly moving a toy side to side gives growing eye muscles and the visual brain practice working as a team.",
+          },
+          {
+            id: "s3",
+            title: "Call and response babble",
+            minutes: 10,
+            why: "Repeating sounds back and pausing for a reply is an early rehearsal of conversation — turn-taking is a brain skill, not just a language one.",
+          },
+          {
+            id: "s4",
+            title: "Texture basket",
+            minutes: 10,
+            why: "Letting tiny hands touch soft, bumpy, and smooth fabrics feeds the somatosensory map that's rapidly filling in this month.",
+          },
+          {
+            id: "s5",
+            title: "Blow gentle raspberries",
+            minutes: 5,
+            why: "Silly sounds and faces held close invite a smile back — an early back-and-forth that trains the brain's social-reward circuitry.",
+          },
+          {
+            id: "s6",
+            title: "Reach for rattle sounds",
+            minutes: 5,
+            why: "Shaking a rattle to one side and waiting encourages baby to turn toward the sound, linking hearing and head control together.",
+          },
+          {
+            id: "s7",
+            title: "Tummy time on your chest",
+            minutes: 10,
+            why: "Lying baby on your chest while you recline is a gentler entry into tummy time, using your heartbeat and voice to make the effort feel safe.",
+          },
+          {
+            id: "s8",
+            title: "Describe what you see",
+            minutes: 10,
+            why: "Narrating a walk outside — pointing out a dog or a tree — feeds vocabulary long before it's understood, building the word-association networks used later.",
+          },
         ],
         reaching: [
-          { id: "r1", title: "Reach-and-grasp play", minutes: 10, why: "Batting at a dangling toy links what the eyes see to what the hands do — one of the brain's first real coordination projects." },
-          { id: "r2", title: "Mirror time", minutes: 5, why: "The reflection is fascinating well before self-recognition develops, and it's rich visual and social stimulation either way." },
-          { id: "r3", title: "Sing simple songs", minutes: 5, why: "Melody and rhythm light up broad networks across both hemispheres, more than speech alone." },
-          { id: "r4", title: "Supported sitting practice", minutes: 10, why: "Working on balance recruits the cerebellum, laying groundwork for the crawling and walking to come." },
-          { id: "r5", title: "Textured tummy time mat", minutes: 10, why: "Adding a ridged or crinkly mat under tummy time gives touch and motor practice at once, since baby feels the surface while pushing up." },
-          { id: "r6", title: "Peekaboo with a cloth", minutes: 5, why: "Even simple hide-and-reveal games start building the idea that things exist even when out of sight — a concept that fully forms a bit later." },
-          { id: "r7", title: "Bounce to rhythm", minutes: 5, why: "Gentle bouncing in time with music links movement and sound processing, both of which the cerebellum is coordinating this month." },
-          { id: "r8", title: "Encourage side-to-side rolling", minutes: 10, why: "Placing a toy just out of reach to one side gives a reason to twist and roll, building the trunk strength needed for sitting." },
+          {
+            id: "r1",
+            title: "Reach-and-grasp play",
+            minutes: 10,
+            why: "Batting at a dangling toy links what the eyes see to what the hands do — one of the brain's first real coordination projects.",
+          },
+          {
+            id: "r2",
+            title: "Mirror time",
+            minutes: 5,
+            why: "The reflection is fascinating well before self-recognition develops, and it's rich visual and social stimulation either way.",
+          },
+          {
+            id: "r3",
+            title: "Sing simple songs",
+            minutes: 5,
+            why: "Melody and rhythm light up broad networks across both hemispheres, more than speech alone.",
+          },
+          {
+            id: "r4",
+            title: "Supported sitting practice",
+            minutes: 10,
+            why: "Working on balance recruits the cerebellum, laying groundwork for the crawling and walking to come.",
+          },
+          {
+            id: "r5",
+            title: "Textured tummy time mat",
+            minutes: 10,
+            why: "Adding a ridged or crinkly mat under tummy time gives touch and motor practice at once, since baby feels the surface while pushing up.",
+          },
+          {
+            id: "r6",
+            title: "Peekaboo with a cloth",
+            minutes: 5,
+            why: "Even simple hide-and-reveal games start building the idea that things exist even when out of sight — a concept that fully forms a bit later.",
+          },
+          {
+            id: "r7",
+            title: "Bounce to rhythm",
+            minutes: 5,
+            why: "Gentle bouncing in time with music links movement and sound processing, both of which the cerebellum is coordinating this month.",
+          },
+          {
+            id: "r8",
+            title: "Encourage side-to-side rolling",
+            minutes: 10,
+            why: "Placing a toy just out of reach to one side gives a reason to twist and roll, building the trunk strength needed for sitting.",
+          },
         ],
         exploring: [
-          { id: "e1", title: "Object permanence peekaboo", minutes: 5, why: "Realizing you still exist when hidden is a genuine cognitive leap — one of the first times a baby reasons about the unseen." },
-          { id: "e2", title: "Safe taste-and-texture exploring", minutes: 10, why: "Mouthing toys is how this age gathers data; texture, weight, and temperature all get mapped through touch and taste together." },
-          { id: "e3", title: "Narrate cause and effect", minutes: 10, why: "Naming the link between an action and its result — \\"you shook it and it rattled\\" — builds early reasoning, even before words are understood." },
-          { id: "e4", title: "Outdoor sound walk", minutes: 15, why: "New sounds, light, and moving air outdoors give the brain a richer stream of input than any single room can." },
-          { id: "e5", title: "Stack and knock down", minutes: 10, why: "Watching a soft stack topple and rebuilding it teaches an early lesson in physical cause and effect, repeated as many times as patience allows." },
-          { id: "e6", title: "Water play in the tub", minutes: 10, why: "Splashing and pouring introduces baby to how water moves and feels differently from solid objects, expanding the mental catalog of physical properties." },
-          { id: "e7", title: "Crawling encouragement", minutes: 10, why: "Placing a toy just out of reach on the floor gives a reason to figure out forward movement, even before true crawling begins." },
-          { id: "e8", title: "Name body parts", minutes: 5, why: "Touching and naming toes, hands, and nose during play links a word to a felt sensation, an early building block of body awareness." },
+          {
+            id: "e1",
+            title: "Object permanence peekaboo",
+            minutes: 5,
+            why: "Realizing you still exist when hidden is a genuine cognitive leap — one of the first times a baby reasons about the unseen.",
+          },
+          {
+            id: "e2",
+            title: "Safe taste-and-texture exploring",
+            minutes: 10,
+            why: "Mouthing toys is how this age gathers data; texture, weight, and temperature all get mapped through touch and taste together.",
+          },
+          {
+            id: "e3",
+            title: "Narrate cause and effect",
+            minutes: 10,
+            why: "Naming the link between an action and its result — such as shaking a toy and hearing it rattle — builds early reasoning, even before words are understood.",
+          },
+          {
+            id: "e4",
+            title: "Outdoor sound walk",
+            minutes: 15,
+            why: "New sounds, light, and moving air outdoors give the brain a richer stream of input than any single room can.",
+          },
+          {
+            id: "e5",
+            title: "Stack and knock down",
+            minutes: 10,
+            why: "Watching a soft stack topple and rebuilding it teaches an early lesson in physical cause and effect, repeated as many times as patience allows.",
+          },
+          {
+            id: "e6",
+            title: "Water play in the tub",
+            minutes: 10,
+            why: "Splashing and pouring introduces baby to how water moves and feels differently from solid objects, expanding the mental catalog of physical properties.",
+          },
+          {
+            id: "e7",
+            title: "Crawling encouragement",
+            minutes: 10,
+            why: "Placing a toy just out of reach on the floor gives a reason to figure out forward movement, even before true crawling begins.",
+          },
+          {
+            id: "e8",
+            title: "Name body parts",
+            minutes: 5,
+            why: "Touching and naming toes, hands, and nose during play links a word to a felt sensation, an early building block of body awareness.",
+          },
         ],
       };
 
       const CRY_CONTEXTS = [
-        { id: "after-feed", label: "After feeding", causeIds: ["gas", "overfull", "reflux"] },
-        { id: "after-wake", label: "After waking up", causeIds: ["hungry", "wet", "startled"] },
-        { id: "before-nap", label: "Before a nap", causeIds: ["tired", "overstimulated", "wants-hold"] },
-        { id: "out-of-nowhere", label: "Out of nowhere", causeIds: ["wet", "hungry", "temperature", "bored"] },
-        { id: "wont-stop", label: "Nothing is working", causeIds: ["sick", "wants-hold", "overstimulated"] },
+        {
+          id: "after-feed",
+          label: "After feeding",
+          causeIds: ["gas", "overfull", "reflux"],
+        },
+        {
+          id: "after-wake",
+          label: "After waking up",
+          causeIds: ["hungry", "wet", "startled"],
+        },
+        {
+          id: "before-nap",
+          label: "Before a nap",
+          causeIds: ["tired", "overstimulated", "wants-hold"],
+        },
+        {
+          id: "out-of-nowhere",
+          label: "Out of nowhere",
+          causeIds: ["wet", "hungry", "temperature", "bored"],
+        },
+        {
+          id: "wont-stop",
+          label: "Nothing is working",
+          causeIds: ["sick", "wants-hold", "overstimulated"],
+        },
       ];
 
       const CRY_CAUSES = [
-        { id: "hungry", label: "Hungry", signs: "Rooting, sucking on hands, smacking lips, crying that ramps up quickly.", try: "Offer a feed even if it feels early — growth spurts and cluster feeding can shift the usual schedule." },
-        { id: "wet", label: "Wet or dirty diaper", signs: "Fussing that started suddenly, or squirming during a change of position.", try: "Check and change the diaper — some babies are bothered by wetness more than others." },
-        { id: "gas", label: "Gas or trapped air", signs: "Crying with legs pulled up, a red face, or crying that started during or right after a feed.", try: "Burp a little longer than usual, try gentle bicycle legs, or lay baby tummy-down across your forearm." },
-        { id: "overfull", label: "Overfull tummy", signs: "Spitting up, arching away from the bottle or breast, crying that eases when upright.", try: "Hold baby upright for 10–15 minutes after feeding before laying them down." },
-        { id: "reflux", label: "Reflux discomfort", signs: "Crying during or soon after feeds, frequent spit-up, arching the back.", try: "Keep feeds calm and upright. If crying after feeds is a regular pattern, mention it to your pediatrician." },
-        { id: "tired", label: "Overtired", signs: "Yawning, red eyebrows, a glazed stare, or jerky movements — and crying that gets worse when you try to engage.", try: "Move to a calm, dim space and start a wind-down routine instead of more stimulation." },
-        { id: "overstimulated", label: "Overstimulated", signs: "Turning away from faces or toys, crying that builds in a busy or loud environment.", try: "Move somewhere quieter and dimmer, and hold baby close without adding more noise or motion." },
-        { id: "startled", label: "Startled", signs: "Sudden crying right after a loud noise or being set down quickly.", try: "Swaddle or hold snugly and let the startle reflex settle with steady, close contact." },
-        { id: "wants-hold", label: "Wants to be held", signs: "Crying stops almost as soon as baby is picked up, and restarts soon after being set down.", try: "Babywearing or simply holding through this stretch is normal — closeness is a real need, not a habit to break." },
-        { id: "temperature", label: "Too hot or cold", signs: "Flushed or pale skin, a sweaty neck, or cool hands and feet along with fussing.", try: "Feel the back of the neck or chest (hands and feet run cool naturally) and add or remove a layer." },
-        { id: "bored", label: "Bored or wants a change", signs: "Fussing during a long stretch in the same spot, calming with a new view or activity.", try: "Move to a new room, step outside, or switch from lying down to being carried upright." },
-        { id: "sick", label: "Not feeling well", signs: "A cry that sounds different than usual, fever, poor feeding, unusual sleepiness, or crying that nothing seems to soothe.", try: "Trust your instincts here — contact your pediatrician, especially alongside fever, vomiting, or a change in feeding or alertness." },
+        {
+          id: "hungry",
+          label: "Hungry",
+          signs:
+            "Rooting, sucking on hands, smacking lips, crying that ramps up quickly.",
+          try: "Offer a feed even if it feels early — growth spurts and cluster feeding can shift the usual schedule.",
+        },
+        {
+          id: "wet",
+          label: "Wet or dirty diaper",
+          signs:
+            "Fussing that started suddenly, or squirming during a change of position.",
+          try: "Check and change the diaper — some babies are bothered by wetness more than others.",
+        },
+        {
+          id: "gas",
+          label: "Gas or trapped air",
+          signs:
+            "Crying with legs pulled up, a red face, or crying that started during or right after a feed.",
+          try: "Burp a little longer than usual, try gentle bicycle legs, or lay baby tummy-down across your forearm.",
+        },
+        {
+          id: "overfull",
+          label: "Overfull tummy",
+          signs:
+            "Spitting up, arching away from the bottle or breast, crying that eases when upright.",
+          try: "Hold baby upright for 10–15 minutes after feeding before laying them down.",
+        },
+        {
+          id: "reflux",
+          label: "Reflux discomfort",
+          signs:
+            "Crying during or soon after feeds, frequent spit-up, arching the back.",
+          try: "Keep feeds calm and upright. If crying after feeds is a regular pattern, mention it to your pediatrician.",
+        },
+        {
+          id: "tired",
+          label: "Overtired",
+          signs:
+            "Yawning, red eyebrows, a glazed stare, or jerky movements — and crying that gets worse when you try to engage.",
+          try: "Move to a calm, dim space and start a wind-down routine instead of more stimulation.",
+        },
+        {
+          id: "overstimulated",
+          label: "Overstimulated",
+          signs:
+            "Turning away from faces or toys, crying that builds in a busy or loud environment.",
+          try: "Move somewhere quieter and dimmer, and hold baby close without adding more noise or motion.",
+        },
+        {
+          id: "startled",
+          label: "Startled",
+          signs:
+            "Sudden crying right after a loud noise or being set down quickly.",
+          try: "Swaddle or hold snugly and let the startle reflex settle with steady, close contact.",
+        },
+        {
+          id: "wants-hold",
+          label: "Wants to be held",
+          signs:
+            "Crying stops almost as soon as baby is picked up, and restarts soon after being set down.",
+          try: "Babywearing or simply holding through this stretch is normal — closeness is a real need, not a habit to break.",
+        },
+        {
+          id: "temperature",
+          label: "Too hot or cold",
+          signs:
+            "Flushed or pale skin, a sweaty neck, or cool hands and feet along with fussing.",
+          try: "Feel the back of the neck or chest (hands and feet run cool naturally) and add or remove a layer.",
+        },
+        {
+          id: "bored",
+          label: "Bored or wants a change",
+          signs:
+            "Fussing during a long stretch in the same spot, calming with a new view or activity.",
+          try: "Move to a new room, step outside, or switch from lying down to being carried upright.",
+        },
+        {
+          id: "sick",
+          label: "Not feeling well",
+          signs:
+            "A cry that sounds different than usual, fever, poor feeding, unusual sleepiness, or crying that nothing seems to soothe.",
+          try: "Trust your instincts here — contact your pediatrician, especially alongside fever, vomiting, or a change in feeding or alertness.",
+        },
       ];
 
       function hashCode(str) {
@@ -556,6 +832,8 @@
         return a;
       }
 
+      const DAILY_PICK_COUNT = 4;
+
       function todaysActivities(stageId, dateKey) {
         const pool = ACTIVITIES[stageId];
         const seed = hashCode(dateKey + ":" + stageId);
@@ -563,43 +841,89 @@
       }
 
       const MILESTONE_DOMAINS = [
-        { id: "motor", label: "Moving", items: [
-          { id: "m1", label: "Lifts head briefly during tummy time" },
-          { id: "m2", label: "Opens and closes hands" },
-          { id: "m3", label: "Holds head steady when upright" },
-          { id: "m4", label: "Pushes up onto forearms" },
-          { id: "m5", label: "Rolls from tummy to back" },
-          { id: "m6", label: "Reaches for and grasps a toy" },
-        ]},
-        { id: "senses", label: "Seeing & Hearing", items: [
-          { id: "se1", label: "Focuses on a face nearby" },
-          { id: "se2", label: "Turns toward a familiar voice" },
-          { id: "se3", label: "Follows a moving object with eyes" },
-          { id: "se4", label: "Notices hands as objects to watch" },
-          { id: "se5", label: "Startles less at sudden sounds" },
-        ]},
-        { id: "talking", label: "Talking & Connecting", items: [
-          { id: "t1", label: "Calms at a caregiver's voice" },
-          { id: "t2", label: "First social smile" },
-          { id: "t3", label: "Coos and makes vowel sounds" },
-          { id: "t4", label: "Laughs out loud" },
-          { id: "t5", label: "Babbles strings of sounds" },
-        ]},
-        { id: "thinking", label: "Thinking", items: [
-          { id: "th1", label: "Shows interest in new faces" },
-          { id: "th2", label: "Anticipates feeding when picked up" },
-          { id: "th3", label: "Studies own hands with interest" },
-          { id: "th4", label: "Searches briefly for a dropped toy" },
-        ]},
+        {
+          id: "motor",
+          label: "Moving",
+          items: [
+            { id: "m1", label: "Lifts head briefly during tummy time" },
+            { id: "m2", label: "Opens and closes hands" },
+            { id: "m3", label: "Holds head steady when upright" },
+            { id: "m4", label: "Pushes up onto forearms" },
+            { id: "m5", label: "Rolls from tummy to back" },
+            { id: "m6", label: "Reaches for and grasps a toy" },
+          ],
+        },
+        {
+          id: "senses",
+          label: "Seeing & Hearing",
+          items: [
+            { id: "se1", label: "Focuses on a face nearby" },
+            { id: "se2", label: "Turns toward a familiar voice" },
+            { id: "se3", label: "Follows a moving object with eyes" },
+            { id: "se4", label: "Notices hands as objects to watch" },
+            { id: "se5", label: "Startles less at sudden sounds" },
+          ],
+        },
+        {
+          id: "talking",
+          label: "Talking & Connecting",
+          items: [
+            { id: "t1", label: "Calms at a caregiver's voice" },
+            { id: "t2", label: "First social smile" },
+            { id: "t3", label: "Coos and makes vowel sounds" },
+            { id: "t4", label: "Laughs out loud" },
+            { id: "t5", label: "Babbles strings of sounds" },
+          ],
+        },
+        {
+          id: "thinking",
+          label: "Thinking",
+          items: [
+            { id: "th1", label: "Shows interest in new faces" },
+            { id: "th2", label: "Anticipates feeding when picked up" },
+            { id: "th3", label: "Studies own hands with interest" },
+            { id: "th4", label: "Searches briefly for a dropped toy" },
+          ],
+        },
       ];
 
       const LIBRARY = [
-        { id: "l1", tag: "Motor", title: "Why tummy time matters so much", body: "Every push-up your baby attempts is strength training for the motor cortex, the strip of brain tissue that plans and fires off movement. Time on the belly is one of the few settings where a young baby has to fight gravity, and that effort builds the neck, shoulder, and core control that rolling, sitting, and crawling all depend on later." },
-        { id: "l2", tag: "Vision", title: "How a blurry world comes into focus", body: "A newborn's vision is soft and low-contrast, closer to 20/400 than 20/20. High-contrast patterns and close-up faces give the visual cortex something strong to practice on. Over the first six months, the connections between eye and brain sharpen fast, and color vision, depth perception, and tracking all come online in stages." },
-        { id: "l3", tag: "Language", title: "Serve and return: talking before talking", body: "Long before a baby says a word, cooing, babbling, and the pauses in between are doing real work. When a caregiver responds to a baby's sound, it's called a serve-and-return exchange, and each round strengthens the neural circuits for language and social understanding. The content matters less than the responsiveness." },
-        { id: "l4", tag: "Touch", title: "Touch is the brain's first language", body: "The sense of touch develops earlier than sight or hearing and stays central to how a young baby understands the world. Skin-to-skin contact and varied textures both feed the somatosensory cortex, and touch is also one of the fastest ways to calm a stressed nervous system — which matters, because a calm brain learns better than an overwhelmed one." },
-        { id: "l5", tag: "Sleep", title: "What happens during all that sleeping", body: "A young baby's sleep isn't downtime for the brain — it's when a lot of the day's input gets sorted and stored. Sleep supports the pruning and strengthening of neural connections formed while awake, which is part of why irregular sleep in the early months is normal even as it's exhausting for everyone else." },
-        { id: "l6", tag: "Emotion", title: "Why calm caregiving is brain food", body: "Consistent, responsive care keeps a baby's stress system from firing too often. Brief, resolved stress is a normal part of life, but frequent unrelieved stress can shift how the brain's threat-response circuitry develops. Picking up a crying baby isn't spoiling — it's telling a developing nervous system that the world is safe to explore." },
+        {
+          id: "l1",
+          tag: "Motor",
+          title: "Why tummy time matters so much",
+          body: "Every push-up your baby attempts is strength training for the motor cortex, the strip of brain tissue that plans and fires off movement. Time on the belly is one of the few settings where a young baby has to fight gravity, and that effort builds the neck, shoulder, and core control that rolling, sitting, and crawling all depend on later.",
+        },
+        {
+          id: "l2",
+          tag: "Vision",
+          title: "How a blurry world comes into focus",
+          body: "A newborn's vision is soft and low-contrast, closer to 20/400 than 20/20. High-contrast patterns and close-up faces give the visual cortex something strong to practice on. Over the first six months, the connections between eye and brain sharpen fast, and color vision, depth perception, and tracking all come online in stages.",
+        },
+        {
+          id: "l3",
+          tag: "Language",
+          title: "Serve and return: talking before talking",
+          body: "Long before a baby says a word, cooing, babbling, and the pauses in between are doing real work. When a caregiver responds to a baby's sound, it's called a serve-and-return exchange, and each round strengthens the neural circuits for language and social understanding. The content matters less than the responsiveness.",
+        },
+        {
+          id: "l4",
+          tag: "Touch",
+          title: "Touch is the brain's first language",
+          body: "The sense of touch develops earlier than sight or hearing and stays central to how a young baby understands the world. Skin-to-skin contact and varied textures both feed the somatosensory cortex, and touch is also one of the fastest ways to calm a stressed nervous system — which matters, because a calm brain learns better than an overwhelmed one.",
+        },
+        {
+          id: "l5",
+          tag: "Sleep",
+          title: "What happens during all that sleeping",
+          body: "A young baby's sleep isn't downtime for the brain — it's when a lot of the day's input gets sorted and stored. Sleep supports the pruning and strengthening of neural connections formed while awake, which is part of why irregular sleep in the early months is normal even as it's exhausting for everyone else.",
+        },
+        {
+          id: "l6",
+          tag: "Emotion",
+          title: "Why calm caregiving is brain food",
+          body: "Consistent, responsive care keeps a baby's stress system from firing too often. Brief, resolved stress is a normal part of life, but frequent unrelieved stress can shift how the brain's threat-response circuitry develops. Picking up a crying baby isn't spoiling — it's telling a developing nervous system that the world is safe to explore.",
+        },
       ];
 
       /* ---------------- state ---------------- */
@@ -633,12 +957,16 @@
         const months = days / 30.44;
         const whole = Math.floor(months);
         const remWeeks = Math.round((months - whole) * 4.35);
-        if (remWeeks <= 0) return whole + (whole === 1 ? " month old" : " months old");
+        if (remWeeks <= 0)
+          return whole + (whole === 1 ? " month old" : " months old");
         return whole + " mo, " + remWeeks + " wk old";
       }
 
       function stageForDays(days) {
-        return STAGES.find((s) => days >= s.minDay && days < s.maxDay) || STAGES[STAGES.length - 1];
+        return (
+          STAGES.find((s) => days >= s.minDay && days < s.maxDay) ||
+          STAGES[STAGES.length - 1]
+        );
       }
 
       function goldenPoints(n, cx, cy, scale) {
@@ -647,7 +975,10 @@
         for (let i = 0; i < n; i++) {
           const r = scale * Math.sqrt(i + 1);
           const theta = i * golden;
-          pts.push({ x: cx + r * Math.cos(theta), y: cy + r * Math.sin(theta) });
+          pts.push({
+            x: cx + r * Math.cos(theta),
+            y: cy + r * Math.sin(theta),
+          });
         }
         return pts;
       }
@@ -667,7 +998,9 @@
       async function saveJSON(key, value) {
         try {
           localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
-        } catch (e) { /* storage full or unavailable — fail silently */ }
+        } catch (e) {
+          /* storage full or unavailable — fail silently */
+        }
       }
 
       function esc(str) {
@@ -678,10 +1011,14 @@
 
       /* ---------------- svg icons (inline, minimal) ---------------- */
 
-      const ICON_BRAIN = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></svg>';
-      const ICON_PENCIL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>';
-      const ICON_CHECK = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-      const ICON_CHEVRON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+      const ICON_BRAIN =
+        '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></svg>';
+      const ICON_PENCIL =
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>';
+      const ICON_CHECK =
+        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      const ICON_CHEVRON =
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
 
       /* ---------------- rendering ---------------- */
 
@@ -699,47 +1036,50 @@
         }
         nodes.forEach((p, i) => {
           const isActive = i < active;
-          circles += `<circle cx="${p.x}" cy="${p.y}" r="${isActive ? 4 : 2.5}" fill="${isActive ? 'var(--accent)' : 'var(--muted)'}" fill-opacity="${isActive ? 0.9 : 0.35}" style="transition: all 0.5s ease"/>`;
+          circles += `<circle cx="${p.x}" cy="${p.y}" r="${isActive ? 4 : 2.5}" fill="${isActive ? "var(--accent)" : "var(--muted)"}" fill-opacity="${isActive ? 0.9 : 0.35}" style="transition: all 0.5s ease"/>`;
         });
         return `
-        <svg viewBox="0 0 300 300" style="width:100%;height:100%" role="img" aria-label="Brain connection bloom">
-          <defs>
-            <radialGradient id="bloomGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.18"/>
-              <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <circle cx="150" cy="150" r="140" fill="url(#bloomGlow)"/>
-          ${lines}
-          ${circles}
-          <circle cx="150" cy="150" r="5.5" fill="var(--accent-2)"/>
-        </svg>`;
+  <svg viewBox="0 0 300 300" style="width:100%;height:100%" role="img" aria-label="Brain connection bloom">
+    <defs>
+      <radialGradient id="bloomGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="150" cy="150" r="140" fill="url(#bloomGlow)"/>
+    ${lines}
+    ${circles}
+    <circle cx="150" cy="150" r="5.5" fill="var(--accent-2)"/>
+  </svg>`;
       }
 
       function renderSetup() {
         return `
-        <div class="setup">
-          <div class="icon-circle">${ICON_BRAIN}</div>
-          <h1 class="font-display">Little Sparks</h1>
-          <p class="tagline">Daily activities, milestones, and the science behind them — tuned to your baby's first six months.</p>
-          <div class="setup-form">
-            <div class="field">
-              <label>Baby's name</label>
-              <input id="input-name" type="text" placeholder="e.g. Amara" value="${state.profile ? esc(state.profile.name) : ''}"/>
-            </div>
-            <div class="field">
-              <label>Birth date</label>
-              <input id="input-birth" type="date" max="${todayKey()}" value="${state.profile ? state.profile.birth : ''}"/>
-            </div>
-            <button id="btn-save-profile" class="btn-primary">Start tracking</button>
-          </div>
-        </div>`;
+  <div class="setup">
+    <div class="icon-circle">${ICON_BRAIN}</div>
+    <h1 class="font-display">Little Sparks</h1>
+    <p class="tagline">Daily activities, milestones, and the science behind them — tuned to your baby's first six months.</p>
+    <div class="setup-form">
+      <div class="field">
+        <label>Baby's name</label>
+        <input id="input-name" type="text" placeholder="e.g. Amara" value="${state.profile ? esc(state.profile.name) : ""}"/>
+      </div>
+      <div class="field">
+        <label>Birth date</label>
+        <input id="input-birth" type="date" max="${todayKey()}" value="${state.profile ? state.profile.birth : ""}"/>
+      </div>
+      <button id="btn-save-profile" class="btn-primary">Start tracking</button>
+    </div>
+  </div>`;
       }
 
       function renderHeader() {
         const days = ageInDays(state.profile.birth);
         const stage = stageForDays(days);
-        const actCount = Object.values(state.activityLog).reduce((s, arr) => s + (arr ? arr.length : 0), 0);
+        const actCount = Object.values(state.activityLog).reduce(
+          (s, arr) => s + (arr ? arr.length : 0),
+          0,
+        );
         const msCount = Object.keys(state.milestoneLog).length;
         const total = actCount + msCount;
 
@@ -749,25 +1089,26 @@
           { id: "library", label: "Learn" },
           { id: "cry", label: "Crying Help" },
         ];
-        const stageIndex = STAGES.findIndex(s => s.id === stage.id);
-        if (stageIndex > 0) tabs.splice(1, 0, { id: "past", label: "Past Stages" });
+        const stageIndex = STAGES.findIndex((s) => s.id === stage.id);
+        if (stageIndex > 0)
+          tabs.splice(1, 0, { id: "past", label: "Past Stages" });
 
         return `
-        <div class="header">
-          <div class="header-top">
-            <div>
-              <p class="header-eyebrow font-mono">${esc(stage.label)} · ${esc(stage.range)}</p>
-              <h1 class="header-name font-display">${esc(state.profile.name)}</h1>
-              <p class="header-age">${ageLabel(days)}</p>
-            </div>
-            <button class="edit-btn" id="btn-edit-profile" aria-label="Edit profile">${ICON_PENCIL}</button>
-          </div>
-          <div class="bloom-wrap">${renderBloom(total, 40)}</div>
-          <p class="bloom-caption">${total} connections logged so far</p>
-        </div>
-        <nav class="tabs">
-          ${tabs.map(t => `<button class="tab-btn ${state.tab === t.id ? 'active' : ''}" data-tab="${t.id}">${t.label}</button>`).join("")}
-        </nav>`;
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <p class="header-eyebrow font-mono">${esc(stage.label)} · ${esc(stage.range)}</p>
+        <h1 class="header-name font-display">${esc(state.profile.name)}</h1>
+        <p class="header-age">${ageLabel(days)}</p>
+      </div>
+      <button class="edit-btn" id="btn-edit-profile" aria-label="Edit profile">${ICON_PENCIL}</button>
+    </div>
+    <div class="bloom-wrap">${renderBloom(total, 40)}</div>
+    <p class="bloom-caption">${total} connections logged so far</p>
+  </div>
+  <nav class="tabs">
+    ${tabs.map((t) => `<button class="tab-btn ${state.tab === t.id ? "active" : ""}" data-tab="${t.id}">${t.label}</button>`).join("")}
+  </nav>`;
       }
 
       function renderToday() {
@@ -775,41 +1116,43 @@
         const stage = stageForDays(days);
         const list = todaysActivities(stage.id, todayKey());
         const doneToday = state.activityLog[todayKey()] || [];
-        const doneFromToday = list.filter(a => doneToday.includes(a.id)).length;
+        const doneFromToday = list.filter((a) =>
+          doneToday.includes(a.id),
+        ).length;
 
         let html = `<p class="today-count">${doneFromToday} of ${list.length} done today · new picks tomorrow</p>`;
-        list.forEach(act => {
+        list.forEach((act) => {
           const done = doneToday.includes(act.id);
           html += `
-          <div class="activity-card ${done ? 'done' : ''}">
-            <button class="check-circle ${done ? 'checked' : ''}" data-activity="${act.id}" aria-label="${done ? 'Mark not done' : 'Mark done'}">
-              ${done ? ICON_CHECK : ''}
-            </button>
-            <div class="activity-body">
-              <div class="activity-title-row">
-                <p class="activity-title">${esc(act.title)}</p>
-                <span class="activity-minutes font-mono">${act.minutes} min</span>
-              </div>
-              <p class="activity-why">${esc(act.why)}</p>
-            </div>
-          </div>`;
+    <div class="activity-card ${done ? "done" : ""}">
+      <button class="check-circle ${done ? "checked" : ""}" data-activity="${act.id}" aria-label="${done ? "Mark not done" : "Mark done"}">
+        ${done ? ICON_CHECK : ""}
+      </button>
+      <div class="activity-body">
+        <div class="activity-title-row">
+          <p class="activity-title">${esc(act.title)}</p>
+          <span class="activity-minutes font-mono">${act.minutes} min</span>
+        </div>
+        <p class="activity-why">${esc(act.why)}</p>
+      </div>
+    </div>`;
         });
         return html;
       }
 
       function renderMilestones() {
         let html = "";
-        MILESTONE_DOMAINS.forEach(domain => {
+        MILESTONE_DOMAINS.forEach((domain) => {
           html += `<div class="domain-block">
-            <div class="domain-title-row"><h2 class="domain-title font-display">${esc(domain.label)}</h2></div>`;
-          domain.items.forEach(item => {
+      <div class="domain-title-row"><h2 class="domain-title font-display">${esc(domain.label)}</h2></div>`;
+          domain.items.forEach((item) => {
             const achieved = state.milestoneLog[item.id];
             html += `
-            <button class="milestone-item ${achieved ? 'done' : ''}" data-milestone="${item.id}">
-              <span class="milestone-check ${achieved ? 'checked' : ''}">${achieved ? ICON_CHECK : ''}</span>
-              <span class="milestone-label">${esc(item.label)}</span>
-              ${achieved ? `<span class="milestone-date font-mono">${achieved}</span>` : ''}
-            </button>`;
+      <button class="milestone-item ${achieved ? "done" : ""}" data-milestone="${item.id}">
+        <span class="milestone-check ${achieved ? "checked" : ""}">${achieved ? ICON_CHECK : ""}</span>
+        <span class="milestone-label">${esc(item.label)}</span>
+        ${achieved ? `<span class="milestone-date font-mono">${achieved}</span>` : ""}
+      </button>`;
           });
           html += `</div>`;
         });
@@ -818,33 +1161,35 @@
 
       function renderLibrary() {
         let html = "";
-        LIBRARY.forEach(art => {
+        LIBRARY.forEach((art) => {
           const open = state.openArticle === art.id;
           html += `
-          <div class="article-card">
-            <button class="article-toggle" data-article="${art.id}">
-              <div>
-                <p class="article-tag font-mono">${esc(art.tag)}</p>
-                <p class="article-title">${esc(art.title)}</p>
-              </div>
-              <span class="chevron ${open ? 'open' : ''}">${ICON_CHEVRON}</span>
-            </button>
-            ${open ? `<p class="article-body">${esc(art.body)}</p>` : ''}
-          </div>`;
+    <div class="article-card">
+      <button class="article-toggle" data-article="${art.id}">
+        <div>
+          <p class="article-tag font-mono">${esc(art.tag)}</p>
+          <p class="article-title">${esc(art.title)}</p>
+        </div>
+        <span class="chevron ${open ? "open" : ""}">${ICON_CHEVRON}</span>
+      </button>
+      ${open ? `<p class="article-body">${esc(art.body)}</p>` : ""}
+    </div>`;
         });
         return html;
       }
 
       function everLoggedSet() {
         const set = new Set();
-        Object.values(state.activityLog).forEach(arr => (arr || []).forEach(id => set.add(id)));
+        Object.values(state.activityLog).forEach((arr) =>
+          (arr || []).forEach((id) => set.add(id)),
+        );
         return set;
       }
 
       function renderPast() {
         const days = ageInDays(state.profile.birth);
         const stage = stageForDays(days);
-        const stageIndex = STAGES.findIndex(s => s.id === stage.id);
+        const stageIndex = STAGES.findIndex((s) => s.id === stage.id);
         const pastStages = STAGES.slice(0, stageIndex);
         const everDone = everLoggedSet();
 
@@ -854,21 +1199,21 @@
 
         let html = `<p class="today-count">Anything skipped earlier is still worth a try — babies don't mind doing things "late."</p>`;
 
-        pastStages.forEach(ps => {
+        pastStages.forEach((ps) => {
           const pool = ACTIVITIES[ps.id];
-          const doneCount = pool.filter(a => everDone.has(a.id)).length;
+          const doneCount = pool.filter((a) => everDone.has(a.id)).length;
           html += `<div class="domain-block">
-            <div class="domain-title-row">
-              <h2 class="domain-title font-display">${esc(ps.label)}</h2>
-              <span class="milestone-date font-mono">${esc(ps.range)} · ${doneCount}/${pool.length}</span>
-            </div>`;
-          pool.forEach(act => {
+      <div class="domain-title-row">
+        <h2 class="domain-title font-display">${esc(ps.label)}</h2>
+        <span class="milestone-date font-mono">${esc(ps.range)} · ${doneCount}/${pool.length}</span>
+      </div>`;
+          pool.forEach((act) => {
             const done = everDone.has(act.id);
             html += `
-            <button class="milestone-item ${done ? 'done' : ''}" data-activity="${act.id}">
-              <span class="milestone-check ${done ? 'checked' : ''}">${done ? ICON_CHECK : ''}</span>
-              <span class="milestone-label">${esc(act.title)}</span>
-            </button>`;
+      <button class="milestone-item ${done ? "done" : ""}" data-activity="${act.id}">
+        <span class="milestone-check ${done ? "checked" : ""}">${done ? ICON_CHECK : ""}</span>
+        <span class="milestone-label">${esc(act.title)}</span>
+      </button>`;
           });
           html += `</div>`;
         });
@@ -876,39 +1221,45 @@
       }
 
       function renderCrying() {
-        const selected = state.cryContext ? CRY_CONTEXTS.find(c => c.id === state.cryContext) : null;
+        const selected = state.cryContext
+          ? CRY_CONTEXTS.find((c) => c.id === state.cryContext)
+          : null;
         const matchedIds = selected ? selected.causeIds : [];
-        const matched = CRY_CAUSES.filter(c => matchedIds.includes(c.id));
-        const rest = CRY_CAUSES.filter(c => !matchedIds.includes(c.id));
+        const matched = CRY_CAUSES.filter((c) => matchedIds.includes(c.id));
+        const rest = CRY_CAUSES.filter((c) => !matchedIds.includes(c.id));
 
         function causeCard(cause) {
           const open = state.openCause === cause.id;
           return `
-          <div class="article-card">
-            <button class="article-toggle" data-cause="${cause.id}">
-              <p class="article-title">${esc(cause.label)}</p>
-              <span class="chevron ${open ? 'open' : ''}">${ICON_CHEVRON}</span>
-            </button>
-            ${open ? `
-            <div class="article-body">
-              <div class="cause-why-block">
-                <p class="cause-why-label font-mono">Signs to look for</p>
-                <p class="cause-why-text">${esc(cause.signs)}</p>
-                <p class="cause-why-label font-mono">What usually helps</p>
-                <p class="cause-why-text" style="margin-bottom:0">${esc(cause.try)}</p>
-              </div>
-            </div>` : ''}
-          </div>`;
+    <div class="article-card">
+      <button class="article-toggle" data-cause="${cause.id}">
+        <p class="article-title">${esc(cause.label)}</p>
+        <span class="chevron ${open ? "open" : ""}">${ICON_CHEVRON}</span>
+      </button>
+      ${
+        open
+          ? `
+      <div class="article-body">
+        <div class="cause-why-block">
+          <p class="cause-why-label font-mono">Signs to look for</p>
+          <p class="cause-why-text">${esc(cause.signs)}</p>
+          <p class="cause-why-label font-mono">What usually helps</p>
+          <p class="cause-why-text" style="margin-bottom:0">${esc(cause.try)}</p>
+        </div>
+      </div>`
+          : ""
+      }
+    </div>`;
         }
 
         let html = `
-        <div class="safety-note">
-          <strong>Not medical advice.</strong> This is a general guide for everyday fussiness. If crying is inconsolable, sounds unusual, or comes with fever, vomiting, or unusual sleepiness, contact your pediatrician or emergency services.
-        </div>
-        <p class="chip-label">When did the crying start?</p>
-        <div class="chip-row">
-          ${CRY_CONTEXTS.map(c => `<button class="chip ${state.cryContext === c.id ? 'selected' : ''}" data-context="${c.id}">${esc(c.label)}</button>`).join("")}
-        </div>`;
+  <div class="safety-note">
+    <strong>Not medical advice.</strong> This is a general guide for everyday fussiness. If crying is inconsolable, sounds unusual, or comes with fever, vomiting, or unusual sleepiness, contact your pediatrician or emergency services.
+  </div>
+  <p class="chip-label">When did the crying start?</p>
+  <div class="chip-row">
+    ${CRY_CONTEXTS.map((c) => `<button class="chip ${state.cryContext === c.id ? "selected" : ""}" data-context="${c.id}">${esc(c.label)}</button>`).join("")}
+  </div>`;
 
         if (selected) {
           html += `<p class="cause-section-label">Worth checking first</p>`;
@@ -971,19 +1322,21 @@
       }
 
       function attachMainHandlers() {
-        document.getElementById("btn-edit-profile").addEventListener("click", () => {
-          state.editingProfile = true;
-          render();
-        });
+        document
+          .getElementById("btn-edit-profile")
+          .addEventListener("click", () => {
+            state.editingProfile = true;
+            render();
+          });
 
-        document.querySelectorAll(".tab-btn").forEach(btn => {
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
           btn.addEventListener("click", () => {
             state.tab = btn.dataset.tab;
             render();
           });
         });
 
-        document.querySelectorAll("[data-activity]").forEach(btn => {
+        document.querySelectorAll("[data-activity]").forEach((btn) => {
           btn.addEventListener("click", async () => {
             const id = btn.dataset.activity;
             const key = todayKey();
@@ -995,7 +1348,7 @@
           });
         });
 
-        document.querySelectorAll("[data-milestone]").forEach(btn => {
+        document.querySelectorAll("[data-milestone]").forEach((btn) => {
           btn.addEventListener("click", async () => {
             const id = btn.dataset.milestone;
             if (state.milestoneLog[id]) delete state.milestoneLog[id];
@@ -1005,7 +1358,7 @@
           });
         });
 
-        document.querySelectorAll("[data-article]").forEach(btn => {
+        document.querySelectorAll("[data-article]").forEach((btn) => {
           btn.addEventListener("click", () => {
             const id = btn.dataset.article;
             state.openArticle = state.openArticle === id ? null : id;
@@ -1013,7 +1366,7 @@
           });
         });
 
-        document.querySelectorAll("[data-context]").forEach(btn => {
+        document.querySelectorAll("[data-context]").forEach((btn) => {
           btn.addEventListener("click", () => {
             const id = btn.dataset.context;
             state.cryContext = state.cryContext === id ? null : id;
@@ -1022,7 +1375,7 @@
           });
         });
 
-        document.querySelectorAll("[data-cause]").forEach(btn => {
+        document.querySelectorAll("[data-cause]").forEach((btn) => {
           btn.addEventListener("click", () => {
             const id = btn.dataset.cause;
             state.openCause = state.openCause === id ? null : id;
