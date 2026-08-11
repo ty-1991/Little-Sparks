@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Little Sparks</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+      :root {
+        --bg: #eff3ee;
+        --card: #fbfaf6;
+        --card-active: #eaf0e7;
+        --ink: #232840;
+        --muted-text: #767c93;
+        --muted: #a8abbe;
+        --accent: #5b6ee8;
+        --accent-2: #c97456;
+        --line: #dfe4dc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        font-family: "Public Sans", sans-serif;
+        color: var(--ink);
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      .font-display {
+        font-family: "Fraunces", serif;
+      }
+      .font-mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      #app {
+        width: 100%;
+        max-width: 400px;
+        background: var(--bg);
+        min-height: 100vh;
+      }
+
+      /* ---- setup screen ---- */
+      .setup {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 420px;
+        padding: 24px;
+        text-align: center;
+      }
+      .setup .icon-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      .setup h1 {
+        font-size: 30px;
+        margin: 0 0 8px;
+      }
+      .setup p.tagline {
+        font-size: 14px;
+        color: var(--muted-text);
+        max-width: 280px;
+        margin: 0 0 32px;
+      }
+      .setup-form {
+        width: 100%;
+        max-width: 280px;
+        text-align: left;
+      }
+      .field {
+        margin-bottom: 16px;
+      }
+      .field label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--muted-text);
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .field input {
+        margin-top: 4px;
+        width: 100%;
+        border-radius: 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        font-family: "Public Sans", sans-serif;
+        font-size: 14px;
+        outline: none;
+      }
+      .field input:focus {
+        border-color: var(--accent);
+      }
+      .btn-primary {
+        width: 100%;
+        border-radius: 10px;
+        padding: 12px;
+        font-weight: 500;
+        font-size: 14px;
+        color: white;
+        background: var(--accent);
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+      .btn-primary:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* ---- header ---- */
+      .header {
+        padding: 24px 20px 12px;
+      }
+      .header-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+      .header-eyebrow {
+        font-size: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--accent-2);
+        margin: 0;
+      }
+      .header-name {
+        font-size: 24px;
+        margin: 2px 0 0;
+      }
+      .header-age {
+        font-size: 14px;
+        color: var(--muted-text);
+        margin: 0;
+      }
+      .edit-btn {
+        padding: 8px;
+        border-radius: 999px;
+        background: var(--card);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .bloom-wrap {
+        width: 160px;
+        height: 160px;
+        margin: 8px auto -6px;
+      }
+      .bloom-caption {
+        text-align: center;
+        font-size: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--muted-text);
+      }
+
+      /* ---- nav ---- */
+      .tabs {
+        display: flex;
+        padding: 0 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .tab-btn {
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--muted-text);
+        position: relative;
+        margin-right: 4px;
+        font-family: "Public Sans", sans-serif;
+      }
+      .tab-btn.active {
+        color: var(--ink);
+      }
+      .tab-btn.active::after {
+        content: "";
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: -1px;
+        height: 2px;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      /* ---- today ---- */
+      .today-count {
+        font-size: 14px;
+        color: var(--muted-text);
+        margin: 0 0 12px;
+      }
+      .activity-card {
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        padding: 16px;
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+        background: var(--card);
+      }
+      .activity-card.done {
+        background: var(--card-active);
+      }
+      .check-circle {
+        margin-top: 2px;
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        background: transparent;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+      .check-circle.checked {
+        border-color: var(--accent);
+        background: var(--accent);
+      }
+      .activity-body {
+        flex: 1;
+      }
+      .activity-title-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: baseline;
+      }
+      .activity-title {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+      }
+      .activity-minutes {
+        font-size: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--muted-text);
+        flex-shrink: 0;
+      }
+      .activity-why {
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--muted-text);
+        margin: 6px 0 0;
+      }
+
+      /* ---- milestones ---- */
+      .domain-block {
+        margin-bottom: 24px;
+      }
+      .domain-title-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .domain-title {
+        font-size: 18px;
+        margin: 0;
+      }
+      .milestone-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-radius: 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        cursor: pointer;
+        text-align: left;
+        margin-bottom: 6px;
+        font-family: "Public Sans", sans-serif;
+      }
+      .milestone-item.done {
+        background: var(--card-active);
+      }
+      .milestone-check {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .milestone-check.checked {
+        border-color: var(--accent);
+        background: var(--accent);
+      }
+      .milestone-label {
+        font-size: 14px;
+        flex: 1;
+      }
+      .milestone-date {
+        font-size: 10px;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--muted-text);
+      }
+
+      /* ---- library ---- */
+      .article-card {
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        margin-bottom: 10px;
+        overflow: hidden;
+      }
+      .article-toggle {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+        font-family: "Public Sans", sans-serif;
+      }
+      .article-tag {
+        font-size: 10px;
+        font-family: "IBM Plex Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--accent-2);
+        margin: 0 0 2px;
+      }
+      .article-title {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+      }
+      .chevron {
+        flex-shrink: 0;
+        transition: transform 0.15s;
+        color: var(--muted-text);
+      }
+      .chevron.open {
+        transform: rotate(180deg);
+      }
+      .article-body {
+        padding: 0 16px 16px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--muted-text);
+        margin: 0;
+      }
+
+      svg text {
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      /* ---------------- content ---------------- */
+
+      const STAGES = [
+        {
+          id: "newborn",
+          label: "Newborn",
+          range: "0–6 weeks",
+          minDay: 0,
+          maxDay: 42,
+        },
+        {
+          id: "settling",
+          label: "Settling In",
+          range: "6–12 weeks",
+          minDay: 42,
+          maxDay: 84,
+        },
+        {
+          id: "reaching",
+          label: "Reaching Out",
+          range: "3–4 months",
+          minDay: 84,
+          maxDay: 120,
+        },
+        {
+          id: "exploring",
+          label: "Exploring",
+          range: "4–6 months",
+          minDay: 120,
+          maxDay: 183,
+        },
+      ];
+
+      const ACTIVITIES = {
+        newborn: [
+          {
+            id: "n1",
+            title: "Face-to-face gazing",
+            minutes: 5,
+            why: "Newborns focus best 8–12 inches away — right about where your face is during a hold. Locking eyes helps the visual cortex learn to track and recognize faces.",
+          },
+          {
+            id: "n2",
+            title: "High-contrast cards",
+            minutes: 5,
+            why: "Bold black-and-white patterns are easier for a brand-new visual system to resolve than soft colors, giving those early neurons something clear to fire at.",
+          },
+          {
+            id: "n3",
+            title: "Narrate the routine",
+            minutes: 10,
+            why: "Talking through diaper changes and feeds — even one-sided — builds the sound patterns that later become language.",
+          },
+          {
+            id: "n4",
+            title: "Skin-to-skin time",
+            minutes: 15,
+            why: "Close contact steadies heart rate and breathing, which keeps stress hormones low so the brain can spend its energy on growing rather than coping.",
+          },
+        ],
+        settling: [
+          {
+            id: "s1",
+            title: "Supervised tummy time",
+            minutes: 10,
+            why: "Pushing up to look around strengthens the neck and shoulders while wiring up the motor cortex for every skill that follows.",
+          },
+          {
+            id: "s2",
+            title: "Follow-the-toy tracking",
+            minutes: 5,
+            why: "Slowly moving a toy side to side gives growing eye muscles and the visual brain practice working as a team.",
+          },
+          {
+            id: "s3",
+            title: "Call and response babble",
+            minutes: 10,
+            why: "Repeating sounds back and pausing for a reply is an early rehearsal of conversation — turn-taking is a brain skill, not just a language one.",
+          },
+          {
+            id: "s4",
+            title: "Texture basket",
+            minutes: 10,
+            why: "Letting tiny hands touch soft, bumpy, and smooth fabrics feeds the somatosensory map that's rapidly filling in this month.",
+          },
+        ],
+        reaching: [
+          {
+            id: "r1",
+            title: "Reach-and-grasp play",
+            minutes: 10,
+            why: "Batting at a dangling toy links what the eyes see to what the hands do — one of the brain's first real coordination projects.",
+          },
+          {
+            id: "r2",
+            title: "Mirror time",
+            minutes: 5,
+            why: "The reflection is fascinating well before self-recognition develops, and it's rich visual and social stimulation either way.",
+          },
+          {
+            id: "r3",
+            title: "Sing simple songs",
+            minutes: 5,
+            why: "Melody and rhythm light up broad networks across both hemispheres, more than speech alone.",
+          },
+          {
+            id: "r4",
+            title: "Supported sitting practice",
+            minutes: 10,
+            why: "Working on balance recruits the cerebellum, laying groundwork for the crawling and walking to come.",
+          },
+        ],
+        exploring: [
+          {
+            id: "e1",
+            title: "Object permanence peekaboo",
+            minutes: 5,
+            why: "Realizing you still exist when hidden is a genuine cognitive leap — one of the first times a baby reasons about the unseen.",
+          },
+          {
+            id: "e2",
+            title: "Safe taste-and-texture exploring",
+            minutes: 10,
+            why: "Mouthing toys is how this age gathers data; texture, weight, and temperature all get mapped through touch and taste together.",
+          },
+          {
+            id: "e3",
+            title: "Narrate cause and effect",
+            minutes: 10,
+            why: "You shook it and it rattled; naming the link between action and result builds early reasoning, even before words are understood.",
+          },
+          {
+            id: "e4",
+            title: "Outdoor sound walk",
+            minutes: 15,
+            why: "New sounds, light, and moving air outdoors give the brain a richer stream of input than any single room can.",
+          },
+        ],
+      };
+
+      const MILESTONE_DOMAINS = [
+        {
+          id: "motor",
+          label: "Moving",
+          items: [
+            { id: "m1", label: "Lifts head briefly during tummy time" },
+            { id: "m2", label: "Opens and closes hands" },
+            { id: "m3", label: "Holds head steady when upright" },
+            { id: "m4", label: "Pushes up onto forearms" },
+            { id: "m5", label: "Rolls from tummy to back" },
+            { id: "m6", label: "Reaches for and grasps a toy" },
+          ],
+        },
+        {
+          id: "senses",
+          label: "Seeing & Hearing",
+          items: [
+            { id: "se1", label: "Focuses on a face nearby" },
+            { id: "se2", label: "Turns toward a familiar voice" },
+            { id: "se3", label: "Follows a moving object with eyes" },
+            { id: "se4", label: "Notices hands as objects to watch" },
+            { id: "se5", label: "Startles less at sudden sounds" },
+          ],
+        },
+        {
+          id: "talking",
+          label: "Talking & Connecting",
+          items: [
+            { id: "t1", label: "Calms at a caregiver's voice" },
+            { id: "t2", label: "First social smile" },
+            { id: "t3", label: "Coos and makes vowel sounds" },
+            { id: "t4", label: "Laughs out loud" },
+            { id: "t5", label: "Babbles strings of sounds" },
+          ],
+        },
+        {
+          id: "thinking",
+          label: "Thinking",
+          items: [
+            { id: "th1", label: "Shows interest in new faces" },
+            { id: "th2", label: "Anticipates feeding when picked up" },
+            { id: "th3", label: "Studies own hands with interest" },
+            { id: "th4", label: "Searches briefly for a dropped toy" },
+          ],
+        },
+      ];
+
+      const LIBRARY = [
+        {
+          id: "l1",
+          tag: "Motor",
+          title: "Why tummy time matters so much",
+          body: "Every push-up your baby attempts is strength training for the motor cortex, the strip of brain tissue that plans and fires off movement. Time on the belly is one of the few settings where a young baby has to fight gravity, and that effort builds the neck, shoulder, and core control that rolling, sitting, and crawling all depend on later.",
+        },
+        {
+          id: "l2",
+          tag: "Vision",
+          title: "How a blurry world comes into focus",
+          body: "A newborn's vision is soft and low-contrast, closer to 20/400 than 20/20. High-contrast patterns and close-up faces give the visual cortex something strong to practice on. Over the first six months, the connections between eye and brain sharpen fast, and color vision, depth perception, and tracking all come online in stages.",
+        },
+        {
+          id: "l3",
+          tag: "Language",
+          title: "Serve and return: talking before talking",
+          body: "Long before a baby says a word, cooing, babbling, and the pauses in between are doing real work. When a caregiver responds to a baby's sound, it's called a serve-and-return exchange, and each round strengthens the neural circuits for language and social understanding. The content matters less than the responsiveness.",
+        },
+        {
+          id: "l4",
+          tag: "Touch",
+          title: "Touch is the brain's first language",
+          body: "The sense of touch develops earlier than sight or hearing and stays central to how a young baby understands the world. Skin-to-skin contact and varied textures both feed the somatosensory cortex, and touch is also one of the fastest ways to calm a stressed nervous system — which matters, because a calm brain learns better than an overwhelmed one.",
+        },
+        {
+          id: "l5",
+          tag: "Sleep",
+          title: "What happens during all that sleeping",
+          body: "A young baby's sleep isn't downtime for the brain — it's when a lot of the day's input gets sorted and stored. Sleep supports the pruning and strengthening of neural connections formed while awake, which is part of why irregular sleep in the early months is normal even as it's exhausting for everyone else.",
+        },
+        {
+          id: "l6",
+          tag: "Emotion",
+          title: "Why calm caregiving is brain food",
+          body: "Consistent, responsive care keeps a baby's stress system from firing too often. Brief, resolved stress is a normal part of life, but frequent unrelieved stress can shift how the brain's threat-response circuitry develops. Picking up a crying baby isn't spoiling — it's telling a developing nervous system that the world is safe to explore.",
+        },
+      ];
+
+      /* ---------------- state ---------------- */
+
+      let state = {
+        ready: false,
+        profile: null,
+        editingProfile: false,
+        activityLog: {},
+        milestoneLog: {},
+        tab: "today",
+        openArticle: null,
+      };
+
+      /* ---------------- helpers ---------------- */
+
+      function todayKey() {
+        return new Date().toISOString().slice(0, 10);
+      }
+
+      function ageInDays(birthISO) {
+        const ms = Date.now() - new Date(birthISO + "T00:00:00").getTime();
+        return Math.max(0, Math.floor(ms / 86400000));
+      }
+
+      function ageLabel(days) {
+        if (days < 14) return days + (days === 1 ? " day old" : " days old");
+        if (days < 60) return Math.floor(days / 7) + " weeks old";
+        const months = days / 30.44;
+        const whole = Math.floor(months);
+        const remWeeks = Math.round((months - whole) * 4.35);
+        if (remWeeks <= 0)
+          return whole + (whole === 1 ? " month old" : " months old");
+        return whole + " mo, " + remWeeks + " wk old";
+      }
+
+      function stageForDays(days) {
+        return (
+          STAGES.find((s) => days >= s.minDay && days < s.maxDay) ||
+          STAGES[STAGES.length - 1]
+        );
+      }
+
+      function goldenPoints(n, cx, cy, scale) {
+        const golden = Math.PI * (3 - Math.sqrt(5));
+        const pts = [];
+        for (let i = 0; i < n; i++) {
+          const r = scale * Math.sqrt(i + 1);
+          const theta = i * golden;
+          pts.push({
+            x: cx + r * Math.cos(theta),
+            y: cy + r * Math.sin(theta),
+          });
+        }
+        return pts;
+      }
+
+      async function loadJSON(key, fallback) {
+        try {
+          const res = await window.storage.get(key, false);
+          if (!res) return fallback;
+          return JSON.parse(res.value);
+        } catch (e) {
+          return fallback;
+        }
+      }
+
+      async function saveJSON(key, value) {
+        try {
+          await window.storage.set(key, JSON.stringify(value), false);
+        } catch (e) {
+          /* ignore */
+        }
+      }
+
+      function esc(str) {
+        const d = document.createElement("div");
+        d.textContent = str;
+        return d.innerHTML;
+      }
+
+      /* ---------------- svg icons (inline, minimal) ---------------- */
+
+      const ICON_BRAIN =
+        '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></svg>';
+      const ICON_PENCIL =
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>';
+      const ICON_CHECK =
+        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      const ICON_CHEVRON =
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+
+      /* ---------------- rendering ---------------- */
+
+      function renderBloom(count, total) {
+        const nodes = goldenPoints(total, 150, 150, 15.5);
+        const active = Math.min(count, total);
+        let lines = "";
+        let circles = "";
+        for (let i = 0; i < active; i++) {
+          if (i > 0) {
+            const prev = nodes[i - 1];
+            const p = nodes[i];
+            lines += `<line x1="${prev.x}" y1="${prev.y}" x2="${p.x}" y2="${p.y}" stroke="var(--accent)" stroke-opacity="0.35" stroke-width="1"/>`;
+          }
+        }
+        nodes.forEach((p, i) => {
+          const isActive = i < active;
+          circles += `<circle cx="${p.x}" cy="${p.y}" r="${isActive ? 4 : 2.5}" fill="${isActive ? "var(--accent)" : "var(--muted)"}" fill-opacity="${isActive ? 0.9 : 0.35}" style="transition: all 0.5s ease"/>`;
+        });
+        return `
+        <svg viewBox="0 0 300 300" style="width:100%;height:100%" role="img" aria-label="Brain connection bloom">
+          <defs>
+            <radialGradient id="bloomGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="150" cy="150" r="140" fill="url(#bloomGlow)"/>
+          ${lines}
+          ${circles}
+          <circle cx="150" cy="150" r="5.5" fill="var(--accent-2)"/>
+        </svg>`;
+      }
+
+      function renderSetup() {
+        return `
+        <div class="setup">
+          <div class="icon-circle">${ICON_BRAIN}</div>
+          <h1 class="font-display">Little Sparks</h1>
+          <p class="tagline">Daily activities, milestones, and the science behind them — tuned to your baby's first six months.</p>
+          <div class="setup-form">
+            <div class="field">
+              <label>Baby's name</label>
+              <input id="input-name" type="text" placeholder="e.g. Amara" value="${state.profile ? esc(state.profile.name) : ""}"/>
+            </div>
+            <div class="field">
+              <label>Birth date</label>
+              <input id="input-birth" type="date" max="${todayKey()}" value="${state.profile ? state.profile.birth : ""}"/>
+            </div>
+            <button id="btn-save-profile" class="btn-primary">Start tracking</button>
+          </div>
+        </div>`;
+      }
+
+      function renderHeader() {
+        const days = ageInDays(state.profile.birth);
+        const stage = stageForDays(days);
+        const actCount = Object.values(state.activityLog).reduce(
+          (s, arr) => s + (arr ? arr.length : 0),
+          0,
+        );
+        const msCount = Object.keys(state.milestoneLog).length;
+        const total = actCount + msCount;
+
+        return `
+        <div class="header">
+          <div class="header-top">
+            <div>
+              <p class="header-eyebrow font-mono">${esc(stage.label)} · ${esc(stage.range)}</p>
+              <h1 class="header-name font-display">${esc(state.profile.name)}</h1>
+              <p class="header-age">${ageLabel(days)}</p>
+            </div>
+            <button class="edit-btn" id="btn-edit-profile" aria-label="Edit profile">${ICON_PENCIL}</button>
+          </div>
+          <div class="bloom-wrap">${renderBloom(total, 40)}</div>
+          <p class="bloom-caption">${total} connections logged so far</p>
+        </div>
+        <nav class="tabs">
+          ${["today", "milestones", "library"]
+            .map((id) => {
+              const labels = {
+                today: "Today",
+                milestones: "Milestones",
+                library: "Learn",
+              };
+              return `<button class="tab-btn ${state.tab === id ? "active" : ""}" data-tab="${id}">${labels[id]}</button>`;
+            })
+            .join("")}
+        </nav>`;
+      }
+
+      function renderToday() {
+        const days = ageInDays(state.profile.birth);
+        const stage = stageForDays(days);
+        const list = ACTIVITIES[stage.id];
+        const doneToday = state.activityLog[todayKey()] || [];
+
+        let html = `<p class="today-count">${doneToday.length} of ${list.length} done today</p>`;
+        list.forEach((act) => {
+          const done = doneToday.includes(act.id);
+          html += `
+          <div class="activity-card ${done ? "done" : ""}">
+            <button class="check-circle ${done ? "checked" : ""}" data-activity="${act.id}" aria-label="${done ? "Mark not done" : "Mark done"}">
+              ${done ? ICON_CHECK : ""}
+            </button>
+            <div class="activity-body">
+              <div class="activity-title-row">
+                <p class="activity-title">${esc(act.title)}</p>
+                <span class="activity-minutes font-mono">${act.minutes} min</span>
+              </div>
+              <p class="activity-why">${esc(act.why)}</p>
+            </div>
+          </div>`;
+        });
+        return html;
+      }
+
+      function renderMilestones() {
+        let html = "";
+        MILESTONE_DOMAINS.forEach((domain) => {
+          html += `<div class="domain-block">
+            <div class="domain-title-row"><h2 class="domain-title font-display">${esc(domain.label)}</h2></div>`;
+          domain.items.forEach((item) => {
+            const achieved = state.milestoneLog[item.id];
+            html += `
+            <button class="milestone-item ${achieved ? "done" : ""}" data-milestone="${item.id}">
+              <span class="milestone-check ${achieved ? "checked" : ""}">${achieved ? ICON_CHECK : ""}</span>
+              <span class="milestone-label">${esc(item.label)}</span>
+              ${achieved ? `<span class="milestone-date font-mono">${achieved}</span>` : ""}
+            </button>`;
+          });
+          html += `</div>`;
+        });
+        return html;
+      }
+
+      function renderLibrary() {
+        let html = "";
+        LIBRARY.forEach((art) => {
+          const open = state.openArticle === art.id;
+          html += `
+          <div class="article-card">
+            <button class="article-toggle" data-article="${art.id}">
+              <div>
+                <p class="article-tag font-mono">${esc(art.tag)}</p>
+                <p class="article-title">${esc(art.title)}</p>
+              </div>
+              <span class="chevron ${open ? "open" : ""}">${ICON_CHEVRON}</span>
+            </button>
+            ${open ? `<p class="article-body">${esc(art.body)}</p>` : ""}
+          </div>`;
+        });
+        return html;
+      }
+
+      function render() {
+        const app = document.getElementById("app");
+
+        if (!state.ready) {
+          app.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:300px;color:var(--muted-text)">Loading…</div>`;
+          return;
+        }
+
+        if (!state.profile || state.editingProfile) {
+          app.innerHTML = renderSetup();
+          attachSetupHandlers();
+          return;
+        }
+
+        let panel = "";
+        if (state.tab === "today") panel = renderToday();
+        else if (state.tab === "milestones") panel = renderMilestones();
+        else panel = renderLibrary();
+
+        app.innerHTML = renderHeader() + `<div class="panel">${panel}</div>`;
+        attachMainHandlers();
+      }
+
+      /* ---------------- event handlers ---------------- */
+
+      function attachSetupHandlers() {
+        const btn = document.getElementById("btn-save-profile");
+        const nameInput = document.getElementById("input-name");
+        const birthInput = document.getElementById("input-birth");
+
+        function updateBtn() {
+          btn.disabled = !nameInput.value || !birthInput.value;
+        }
+        nameInput.addEventListener("input", updateBtn);
+        birthInput.addEventListener("input", updateBtn);
+        updateBtn();
+
+        btn.addEventListener("click", async () => {
+          if (!nameInput.value || !birthInput.value) return;
+          state.profile = { name: nameInput.value, birth: birthInput.value };
+          state.editingProfile = false;
+          await saveJSON("baby-profile", state.profile);
+          render();
+        });
+      }
+
+      function attachMainHandlers() {
+        document
+          .getElementById("btn-edit-profile")
+          .addEventListener("click", () => {
+            state.editingProfile = true;
+            render();
+          });
+
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            state.tab = btn.dataset.tab;
+            render();
+          });
+        });
+
+        document.querySelectorAll("[data-activity]").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const id = btn.dataset.activity;
+            const key = todayKey();
+            const list = new Set(state.activityLog[key] || []);
+            list.has(id) ? list.delete(id) : list.add(id);
+            state.activityLog[key] = Array.from(list);
+            await saveJSON("activity-log", state.activityLog);
+            render();
+          });
+        });
+
+        document.querySelectorAll("[data-milestone]").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const id = btn.dataset.milestone;
+            if (state.milestoneLog[id]) delete state.milestoneLog[id];
+            else state.milestoneLog[id] = todayKey();
+            await saveJSON("milestone-log", state.milestoneLog);
+            render();
+          });
+        });
+
+        document.querySelectorAll("[data-article]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.dataset.article;
+            state.openArticle = state.openArticle === id ? null : id;
+            render();
+          });
+        });
+      }
+
+      /* ---------------- init ---------------- */
+
+      (async function init() {
+        state.profile = await loadJSON("baby-profile", null);
+        state.activityLog = await loadJSON("activity-log", {});
+        state.milestoneLog = await loadJSON("milestone-log", {});
+        state.ready = true;
+        render();
+      })();
+    </script>
+  </body>
+</html>
