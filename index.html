@@ -933,7 +933,7 @@
           doneToday.includes(a.id),
         ).length;
 
-        let html = `<p class="today-count">${doneFromToday} of ${list.length} done today · new picks tomorrow</p>`;
+        let html = `<p class="today-count">${doneFromToday} of ${list.length} Done Today · New Picks Tomorrow!</p>`;
         list.forEach((act) => {
           const done = doneToday.includes(act.id);
           html += `
